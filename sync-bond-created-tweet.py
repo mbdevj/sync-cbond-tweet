@@ -23,7 +23,7 @@ def main(argv):
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print('parseargs.py --first_ticker ETH --first-qty 2.58 --second-ticker SYNC --second-qty 33000 --duration 90 --apr 22.7 --image-path /path/to/media/2020012522543727.png')
+            print('python3 sync-bond-created-tweet.py --first-ticker ETH --first-qty 2.58 --second-ticker SYNC --second-qty 33000 --duration 90 --apr 22.7 --image-path bond.png')
             sys.exit()
         elif opt in ("--first-ticker"):
             first_ticker = arg
