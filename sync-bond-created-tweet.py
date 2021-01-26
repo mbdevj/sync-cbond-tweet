@@ -3,10 +3,10 @@
 import sys, getopt
 import tweepy
 
-CONSUMER_KEY ="XXXX"
-CONSUMER_SECRET = "XXXX"   
-ACCESS_KEY = "XXXX"    
-ACCESS_SECRET = "XXXX"
+CONSUMER_KEY = "XXXXXX"
+CONSUMER_SECRET = "XXXXXX"   
+ACCESS_KEY = "XXXXXX"    
+ACCESS_SECRET = "XXXXXX"
 
 def main(argv):
     first_ticker = ''
@@ -46,7 +46,7 @@ def main(argv):
     tweet_text = "New " + duration + " day $SYNC #CryptoBond created using " \
     + first_qty + " $" + first_ticker + " and " + second_qty + " $" + second_ticker \
     + ", yielding an APR of " + apr + "%! Create yours now at https://syncbond.com." 
-    
+
 
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
     auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
