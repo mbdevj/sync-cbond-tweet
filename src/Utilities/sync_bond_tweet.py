@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-import sys, getopt
 import tweepy
 
 CONSUMER_KEY = "XXXXXXXX"
