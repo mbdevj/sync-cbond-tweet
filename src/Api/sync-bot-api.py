@@ -6,8 +6,8 @@ from ..Actions import tweet
 app = Flask(__name__)
 
 
-@app.route('/api/v1/tweet', methods=["GET", "POST"])
-def create_tweet():
+@app.route('/api/v1/tweet-crypto-bond-created', methods=["GET", "POST"])
+def tweet_crypto_bond_created():
     first_ticker = str(request.args["first-ticker"])
     first_qty = str(request.args["first-qty"])
     second_ticker = str(request.args["second-ticker"])

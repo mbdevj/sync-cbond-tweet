@@ -1,10 +1,12 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import tweepy
 from configparser import RawConfigParser
 
+properties_file = '../resources/application.properties'
+
 config = RawConfigParser()
-config.read('../resources/application.properties')
+config.read(properties_file)
 
 CONSUMER_KEY = config.get('TwitterApiSection', 'twitter.consumer.key')
 CONSUMER_SECRET = config.get('TwitterApiSection', 'twitter.consumer.secret')
