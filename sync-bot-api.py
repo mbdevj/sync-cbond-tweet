@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-from flask import Flask, request
-from src.Scenarios import bond_created
+from flask import Flask
+from Scenarios import bond_created
 
 app = Flask(__name__)
 

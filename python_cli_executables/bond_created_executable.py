@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import sys, getopt
-from src.Actions import twit
+from Actions import twit
 
 
 def main(argv):

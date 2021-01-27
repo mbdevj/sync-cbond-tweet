@@ -1,5 +1,7 @@
+#!/usr/bin/python3
+
 from flask import request
-from ..Actions import twit
+from Actions import twit
 
 
 def tweet():
