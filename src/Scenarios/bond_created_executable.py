@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import sys, getopt
-from ..Utilities import tweet
+from ..Actions import tweet
 
 def main(argv):
     try:
