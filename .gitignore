@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Properties files
+./src/resources/application.properties
+./tests/resources/application.properties
+
 # Distribution / packaging
 .Python
 build/
@@ -127,3 +131,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+
+.idea
