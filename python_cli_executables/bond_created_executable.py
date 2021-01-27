@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import sys, getopt
-from src.Actions import tweet
+from src.Actions import twit
 
 
 def main(argv):
@@ -37,7 +37,7 @@ def main(argv):
                  + ", yielding an APR of " + apr + "%! Create yours now at https://syncbond.com."
 
     try:
-        tweet.update_status_with_media(tweet_text, image_path)
+        twit.update_status_with_media(tweet_text, image_path)
         message = "Successfully tweeted."
     except Exception as e:
         message = "Failed to tweet."

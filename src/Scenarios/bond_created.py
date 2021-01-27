@@ -1,5 +1,5 @@
 from flask import request
-from ..Actions import tweet
+from ..Actions import twit
 
 
 def tweet():
@@ -16,7 +16,7 @@ def tweet():
                  + ", yielding an APR of " + apr + "%! Create yours now at https://syncbond.com."
 
     try:
-        tweet.update_status_with_media(tweet_text, image_path)
+        twit.update_status_with_media(tweet_text, image_path)
         message = "Successfully tweeted."
     except Exception as e:
         message = "Failed to tweet."

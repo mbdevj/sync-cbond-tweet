@@ -1,16 +1,14 @@
 #!/usr/bin/python3
 
 from flask import Flask, request
-from ..Scenarios import bond_created
+from src.Scenarios import bond_created
 
 app = Flask(__name__)
 
 
 @app.route('/api/v1/tweet-crypto-bond-created', methods=["GET", "POST"])
 def tweet_crypto_bond_created():
-    bond_created.tweet()
+    return bond_created.tweet()
 
 
-
-
-app.run(debug=False)
+app.run(debug=True)
