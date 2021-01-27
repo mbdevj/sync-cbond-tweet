@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from flask import Flask, request
-from ..utilities import tweet
+from ..Utilities import tweet
 
 app = Flask(__name__)
 
