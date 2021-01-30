@@ -19,7 +19,7 @@ def tweet():
     if first_ticker == "ETH":
         first_long_name = "ethereum"
     elif first_ticker == "SYNC":
-        first_long_name = "sync"
+        first_long_name = "sync-network"
 
     if second_ticker == "ETH":
         second_long_name = "ethereum"
