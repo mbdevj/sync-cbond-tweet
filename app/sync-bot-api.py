@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
 from flask import Flask
-from Scenarios import bond_created
+from flask import render_template
+from app.scenarios import bond_created
 
 app = Flask(__name__)
 

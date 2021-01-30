@@ -5,8 +5,7 @@ import sys
 from configparser import RawConfigParser
 import os
 
-properties_file = "/resources/application.properties"
-properties_file = os.getcwd() + "/" + properties_file
+properties_file = os.getcwd() + "/resources/application.properties"
 
 config = RawConfigParser()
 config.read(properties_file, encoding=None)
