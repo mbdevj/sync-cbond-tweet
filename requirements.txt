@@ -1,3 +1,4 @@
+babel==2.9.0
 click==7.1.2
 Flask==1.1.1
 itsdangerous==1.1.0
@@ -7,3 +8,4 @@ tweepy~=3.10.0
 Jinja2~=2.11.2
 requests~=2.24.0
 pycoingecko~=1.4.0
+web3~=5.15.0

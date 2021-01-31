@@ -2,7 +2,7 @@
 
 from flask import Flask
 from flask import render_template
-from app.scenarios import bond_created
+from scenarios import bond_created
 
 app = Flask(__name__)
 
