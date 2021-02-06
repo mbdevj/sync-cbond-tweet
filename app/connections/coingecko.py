@@ -2,7 +2,6 @@
 
 from pycoingecko import CoinGeckoAPI
 import json
-import decimal
 
 
 cg = CoinGeckoAPI()
@@ -14,6 +13,3 @@ def get_price(coin, vs_currency):
     resp = (json.loads(json_str))
     price = float(resp[coin][vs_currency])
     return price
-
-
-# get_price("ethereum", "usd")
