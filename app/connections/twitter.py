@@ -12,10 +12,10 @@ config.read(properties_file, encoding=None)
 
 
 try:
-    CONSUMER_KEY = config.get("TwitterApiSection", "twitter.consumer.key")
-    CONSUMER_SECRET = config.get("TwitterApiSection", "twitter.consumer.secret")
-    ACCESS_KEY = config.get("TwitterApiSection", "twitter.access.key")
-    ACCESS_SECRET = config.get("TwitterApiSection", "twitter.access.secret")
+    CONSUMER_KEY = config.get("TwitterProperties", "twitter.consumer.key")
+    CONSUMER_SECRET = config.get("TwitterProperties", "twitter.consumer.secret")
+    ACCESS_KEY = config.get("TwitterProperties", "twitter.access.key")
+    ACCESS_SECRET = config.get("TwitterProperties", "twitter.access.secret")
 except Exception as e:
     print('could not read configuration file')
     print(e)

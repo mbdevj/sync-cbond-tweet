@@ -13,7 +13,7 @@ config.read(properties_file, encoding=None)
 
 try:
     ETHEREUM_CONTRACT = config.get("EthereumProperties", "ethereum.contract")
-    ETHEREUM_ENDPOINT = config.get("EthereumProperties", "ethereum.endpoint")
+    ETHEREUM_ENDPOINT = config.get("EthereumProperties", "ethereum.provider")
 except Exception as e:
     print('could not read configuration file')
     print(e)
@@ -36,6 +36,7 @@ def handle_event(event):
 
     request = requests.get(token_image, stream=True)
     if request.status_code == 200:
+        filename = "images/" + filename
         with open(filename, 'wb') as image:
             for chunk in request:
                 image.write(chunk)
