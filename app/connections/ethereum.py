@@ -42,6 +42,7 @@ def handle_event(event):
                 image.write(chunk)
     twitter.update_status_with_media("This is a test tweet", filename)
 
+
 def log_loop(event_filter, poll_interval):
     while True:
         os.environ['TZ'] = 'EST+05EDT,M4.1.0,M10.5.0'
