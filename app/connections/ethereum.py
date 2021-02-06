@@ -7,8 +7,6 @@ import web3.datastructures as wd
 from web3 import Web3, HTTPProvider
 from configparser import RawConfigParser
 
-
-# Parse properties
 properties_file = os.getcwd() + "/resources/application.properties"
 config = RawConfigParser()
 config.read(properties_file, encoding=None)

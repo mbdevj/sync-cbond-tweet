@@ -4,8 +4,6 @@ from web3.contract import ConciseContract
 import os
 import ethereum
 
-
-
 w3 = Web3(HTTPProvider("https://mainnet.infura.io/v3/337d7f32be2f4356bc28b30d5917312b"))
 
 with open(os.getcwd() + "/resources/abi/cbond.abi") as f:

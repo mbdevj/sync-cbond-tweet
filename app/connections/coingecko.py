@@ -3,7 +3,6 @@
 from pycoingecko import CoinGeckoAPI
 import json
 
-
 cg = CoinGeckoAPI()
 
 
