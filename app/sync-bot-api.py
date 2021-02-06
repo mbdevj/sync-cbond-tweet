@@ -2,7 +2,7 @@
 
 from flask import Flask
 from flask import render_template_string
-from scenarios import bond_created
+from app.scenarios import bond_created
 import os
 from configparser import RawConfigParser
 

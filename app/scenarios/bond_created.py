@@ -2,8 +2,8 @@
 
 from flask import request
 import locale
-from external_apis import twitter
-from external_apis import coingecko
+from app.connections import twitter
+from app.connections import coingecko
 from babel.numbers import format_currency
 
 
