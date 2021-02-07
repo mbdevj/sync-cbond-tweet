@@ -2,17 +2,8 @@
 
 from flask import Flask
 from flask import render_template_string
-from app.scenarios import bond_created
-import os
-from configparser import RawConfigParser
+from scenarios import bond_created
 
-
-properties_file = os.getcwd() + "/resources/application.properties"
-print(properties_file)
-config = RawConfigParser()
-config.read(properties_file, encoding=None)
-debug_mode = config.get("FlaskSection", "flask.debug.mode")
-print(debug_mode)
 
 SYNC_BOND_API = '''
 <html>\
@@ -40,7 +31,6 @@ def home():
 
 
 try:
-    print(debug_mode)
-    app.run(host='0.0.0.0', debug=False)
+    app.run(host='0.0.0.0', debug=True)
 except Exception as e:
     print(e)

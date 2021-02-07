@@ -2,6 +2,7 @@ import time
 import os
 import sys
 import twitter
+import json
 import requests
 import web3.datastructures as wd
 from web3 import Web3, HTTPProvider
@@ -27,20 +28,21 @@ checksum_address = w3.toChecksumAddress(ETHEREUM_CONTRACT)
 
 def handle_event(event):
     print(event)
-    res = wd.AttributeDict(event[0])
-    token_id = str(int(res['topics'][3].hex()[-10:], 16))
+    dicts = json.loads(Web3.toJSON(event))
+    print(dicts)
+    token_id = str(int(dicts[0]['topics'][3], 16))
     print(token_id)
-    filename = token_id + ".png"
-    token_image = "https://img.syncbond.com/bond/" + filename
+    bond_image = token_id + ".png"
+    token_image = "https://img.syncbond.com/bond/" + bond_image
     print("link to cbond image: " + token_image)
 
     request = requests.get(token_image, stream=True)
     if request.status_code == 200:
-        filename = "images/" + filename
-        with open(filename, 'wb') as image:
+        bond_image = "images/" + bond_image
+        with open(bond_image, 'wb') as image:
             for chunk in request:
                 image.write(chunk)
-    twitter.update_status_with_media("This is a test tweet", filename)
+    twitter.update_status_with_media("This is a test tweet", bond_image)
 
 
 def log_loop(event_filter, poll_interval):
@@ -49,6 +51,10 @@ def log_loop(event_filter, poll_interval):
         time.tzset()
         print(time.strftime('%X %x %Z') + " - Polling for events on " + ETHEREUM_CONTRACT)
         for event in event_filter.get_new_entries():
+            # print(event)
+            # print(w3.eth.(event))
+            # exit(0)
+            # w3.eth.getLogs(event)
             handle_event(event)
         time.sleep(poll_interval)
 
