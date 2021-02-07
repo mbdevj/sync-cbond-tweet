@@ -55,7 +55,7 @@ def log_loop(event_filter, poll_interval, is_test):
         print(message)
         for event in event_filter.get_all_entries():
             handle_event(event)
-        time.sleep(poll_interval)
+            time.sleep(poll_interval)
 
 
 
