@@ -28,5 +28,7 @@ def update_status_with_media(tweet_text, image_path):
 
     api = tweepy.API(auth, wait_on_rate_limit=True,
                      wait_on_rate_limit_notify=True)
-
-    api.update_with_media(image_path, tweet_text)
+    try:
+        api.update_with_media(image_path, tweet_text)
+    except Exception as e:
+        print(e)
