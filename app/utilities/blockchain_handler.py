@@ -1,24 +1,32 @@
 from web3 import Web3
 from web3.contract import ConciseContract
+from configparser import RawConfigParser
 from urllib import parse
 import os
+import sys
 import urllib.request, json
 
 
-w3 = Web3(Web3.HTTPProvider("https://mainnet.infura.io/v3/abf746348603424d830dd8c9f55b08c7"))
+properties_file = os.getcwd() + "/resources/application.properties"
+config = RawConfigParser()
+config.read(properties_file, encoding=None)
 
-# Total value of LPT
-# First Token
-# Second Token
-# Total value of bonded SYNC
-# APR
-# Duration
+try:
+    ETHEREUM_CONTRACT = config.get("EthereumProperties", "ethereum.contract")
+    ETHEREUM_ENDPOINT = config.get("EthereumProperties", "ethereum.provider")
+except Exception as e:
+    print('Could not read configuration file')
+    print(e)
+    sys.exit(1)
+
+w3 = Web3(Web3.HTTPProvider(ETHEREUM_ENDPOINT))
+
 
 with open(os.getcwd() + "/resources/abi/cbond.abi") as f:
     cbond_abi = json.load(f)
 
 
-cbond_address = w3.toChecksumAddress('0xc6c11f32d3ccc3beaac68793bc3bfbe82838ca9f')
+cbond_address = w3.toChecksumAddress(ETHEREUM_CONTRACT)
 cbond_contract = w3.eth.contract(address=cbond_address, abi=cbond_abi)
 cbond_concise = ConciseContract(cbond_contract)
 
@@ -36,6 +44,7 @@ def get_total_value_of_bonded_sync(token_id):
         data = json.loads(url.read().decode())
         total_value = data['sync_value_usd']
         return total_value
+
 
 def get_lpt_pair(contract):
     pools =[
@@ -62,9 +71,10 @@ def get_lpt_pair(contract):
 def get_apr(token_id):
     with urllib.request.urlopen("https://tokenomics.syncbond.com/currentMaturedValue?id=" + str(token_id)) as url:
         data = json.loads(url.read().decode())
-        apr = ("{:.2f}".format(data['numeric']['sync_percent_change']))
-        # print("{:.2f}".format(data['numeric']['sync_percent_change']))
-        # print(data['numeric']['sync_percent_change'])
+        original_amount_sync = data['numeric']['original_amount_sync']
+        mature_amount_sync = data['numeric']['mature_amount_sync']
+        apr = round((mature_amount_sync / original_amount_sync - 1) * 100, 2)
+        print(apr)
         return apr
 
 
@@ -74,14 +84,5 @@ def get_duration(token_id):
     # print(int(int(data['termLength'])/86400))
     # print(data)
     duration = int(int(data['termLength'])/86400)
+    # print(duration)
     return duration
-
-
-# {"lpt_percent_change":"+122.83%","lpt_value_usd":"$10,786.23","numeric":{"lpt_percent_change":122.8267650373482,"lpt_value_usd":10786.230291581316,"mature_amount_sync":152772.59141876735,"original_amount_sync":98321,"sync_percent_change":43.86780407904322,"sync_value_usd":2717.129415941753,"total_percent_change":39.479868273239525,"total_value_usd":13503.359707523068},"sync_percent_change":"-43.87%","sync_value_usd":"$2,717.13","total_percent_change":"+39.48%","total_value_usd":"$13,503.36"}
-
-# get_lpt_value("804")
-# get_total_value_of_bonded_sync("804")
-# get_apr("804")
-# get_duration(804)
-# get_lpt_pair("804")
-

@@ -1,7 +1,7 @@
 import time
 import os
 import sys
-import requests
+import platform
 from app.utilities import event_handler
 from app.utilities import event_signatures
 from app.utilities import blockchain_handler
@@ -28,23 +28,22 @@ checksum_address = w3.toChecksumAddress(ETHEREUM_CONTRACT)
 
 
 def poll_blockchain(event_filter, poll_interval, is_test):
-    os.environ['TZ'] = 'EST+05EDT,M4.1.0,M10.5.0'
-    time.tzset()
-    message = time.strftime('%X %x %Z') + " - Polling for events on " + ETHEREUM_CONTRACT
+    operating_system = platform.system()
+    if operating_system == 'Windows':
+        message = "Polling for events on " + ETHEREUM_CONTRACT
+    else:
+        os.environ['TZ'] = 'EST+05EDT,M4.1.0,M10.5.0'
+        time.tzset()
+        message = time.strftime('%X %x %Z') + " - Polling for events on " + ETHEREUM_CONTRACT
     if not is_test:
         while True:
             print(message)
             for event in event_filter.get_all_entries():
                 token_id = event_handler.handle_create_event(event)
                 image = image_handler.get_bond_image(token_id)
-                # twitter.update_status_with_media("Message here :)", image)
+                twitter.update_status_with_media("Message here :)", image)
             time.sleep(poll_interval)
     else:
-        # get_lpt_value("804")
-        # get_total_value_of_bonded_sync("804")
-        # get_apr("804")
-        # get_duration(804)
-        # get_lpt_pair("804")
         print("TEST: " + message)
         for event in event_filter.get_all_entries():
             block_id = (event['transactionHash'])
@@ -62,13 +61,12 @@ def poll_blockchain(event_filter, poll_interval, is_test):
             tweet_text = "New " + duration + " day #CryptoBond created with " + total_value_of_bonded_sync \
                          + " $SYNC and " + lpt_value + " " + lpt_pair + ", yielding an APR of " + apr \
                          + "%! Create yours now at https://syncbond.com!"
-            twitter.update_status_with_media(tweet_text, os.getcwd() +"/resources/bond.png")
+            twitter.update_status_with_media(tweet_text, image)
             time.sleep(poll_interval)
 
 
-
 def main():
-    is_test = True
+    is_test = False
     event_signature = event_signatures.get_created_signature()
     # event_signature = event_signatures.get_transfer_signature()
     # event_signature = event_signatures.getMaturedSignature()
