@@ -2,6 +2,9 @@ import time
 import os
 import sys
 import requests
+from app.utilities import event_handler
+from app.utilities import event_signatures
+from app.connections import twitter
 from web3 import Web3, HTTPProvider
 from configparser import RawConfigParser
 
@@ -21,24 +24,17 @@ w3 = Web3(HTTPProvider(ETHEREUM_ENDPOINT))
 checksum_address = w3.toChecksumAddress(ETHEREUM_CONTRACT)
 
 
-def handle_event(event):
-    block_id = (event['transactionHash'])
-    print(event)
-    print("Processing transactionHash: " + str(block_id.hex()))
-    token_id = int((event['topics'][3]).hex(), 16)
+def get_bond_image(token_id):
     bond_image = str(token_id) + ".png"
     token_image = "https://img.syncbond.com/bond/" + bond_image
     print("link to cbond image: " + token_image)
-
     request = requests.get(token_image, stream=True)
     if request.status_code == 200:
         bond_image = "images/" + bond_image
         with open(bond_image, 'wb') as image:
             for chunk in request:
                 image.write(chunk)
-    print("Send tweet after all variables taken")
-    # UNCOMMENT BELOW LINE WHEN WE HAVE ALL THE VARIABLES NEEDED FOR TWEETING
-    # twitter.update_status_with_media("This is a test tweet", bond_image)
+    return bond_image
 
 
 def log_loop(event_filter, poll_interval, is_test):
@@ -49,19 +45,28 @@ def log_loop(event_filter, poll_interval, is_test):
         while True:
             print(message)
             for event in event_filter.get_all_entries():
-                handle_event(event)
+                token_id = event_handler.handle_create_event(event)
+                image = get_bond_image(token_id)
+                # twitter.update_status_with_media("Message here :)", image)
             time.sleep(poll_interval)
     else:
         print(message)
         for event in event_filter.get_all_entries():
-            handle_event(event)
+            block_id = (event['transactionHash'])
+            print("Processing transactionHash: " + str(block_id.hex()))
+            # token_id = event_handler.handle_transfer_event(event)
+            token_id = event_handler.handle_create_event(event)
+            # print(token_id)
+            image = get_bond_image(token_id)
+            # twitter.update_status_with_media("Message here :)", image)
             time.sleep(poll_interval)
 
 
-
 def main():
-    is_test = True
-    event_signature = w3.sha3(text="Transfer(address,address,uint256)").hex()
+    is_test = False
+    event_signature = event_signatures.get_created_signature()
+    # event_signature = event_signatures.get_transfer_signature()
+    # event_signature = event_signatures.getMaturedSignature()
     if is_test:
         event_filter = w3.eth.filter({"address": checksum_address, 'fromBlock': 11774988, 'toBlock': 'latest', 'topics': [event_signature]})
     else:
