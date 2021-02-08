@@ -4,6 +4,7 @@ import sys
 import requests
 from app.utilities import event_handler
 from app.utilities import event_signatures
+from app.utilities import blockchain_handler
 from app.utilities import image_handler
 from app.connections import twitter
 from web3 import Web3, HTTPProvider
@@ -39,16 +40,31 @@ def poll_blockchain(event_filter, poll_interval, is_test):
                 # twitter.update_status_with_media("Message here :)", image)
             time.sleep(poll_interval)
     else:
-        print(message)
+        # get_lpt_value("804")
+        # get_total_value_of_bonded_sync("804")
+        # get_apr("804")
+        # get_duration(804)
+        # get_lpt_pair("804")
+        print("TEST: " + message)
         for event in event_filter.get_all_entries():
             block_id = (event['transactionHash'])
             print("Processing transactionHash: " + str(block_id.hex()))
-            # token_id = event_handler.handle_transfer_event(event)
             token_id = event_handler.handle_create_event(event)
             # print(token_id)
+            data = ([event['data'][26:66]])
+            lpt_contract = "0x" + str((data[0]))
+            lpt_pair = str(blockchain_handler.get_lpt_pair(lpt_contract))
+            lpt_value = str(blockchain_handler.get_lpt_value(token_id))
+            duration = str(blockchain_handler.get_duration(token_id))
+            total_value_of_bonded_sync = str(blockchain_handler.get_total_value_of_bonded_sync(token_id))
+            apr = str(blockchain_handler.get_apr(token_id))
             image = image_handler.get_bond_image(token_id)
-            # twitter.update_status_with_media("Message here :)", image)
+            tweet_text = "New " + duration + " day #CryptoBond created with " + total_value_of_bonded_sync \
+                         + " $SYNC and " + lpt_value + " " + lpt_pair + ", yielding an APR of " + apr \
+                         + "%! Create yours now at https://syncbond.com!"
+            twitter.update_status_with_media(tweet_text, os.getcwd() +"/resources/bond.png")
             time.sleep(poll_interval)
+
 
 
 def main():

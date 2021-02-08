@@ -1,6 +1,7 @@
 import requests
 
 
+
 def get_bond_image(token_id):
     bond_image = str(token_id) + ".png"
     token_image = "https://img.syncbond.com/bond/" + bond_image
