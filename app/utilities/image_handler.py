@@ -4,10 +4,10 @@ import os
 
 
 def get_bond_image(token_id):
-    image_dir = os.getcwd() + "/images/"
+    image_dir = os.getcwd() + "/app/images/"
     cbond_image = str(token_id) + ".png"
     token_image = "https://img.syncbond.com/bond/" + cbond_image
-    print("link to cbond image: " + token_image)
+    # print("link to cbond image: " + token_image)
     request = requests.get(token_image, stream=True)
     if request.status_code == 200:
         bond = image_dir + cbond_image

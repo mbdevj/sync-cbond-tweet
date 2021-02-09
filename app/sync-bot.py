@@ -12,8 +12,6 @@ ETHEREUM_CONTRACT = parameters_handler.get_eth_contract()
 w3 = web3driver.get_web3_session(parameters_handler.get_eth_endpoint())
 checksum_address = w3.toChecksumAddress(ETHEREUM_CONTRACT)
 operating_system = platform.system()
-os.environ['TZ'] = 'EST+05EDT,M4.1.0,M10.5.0'
-time.tzset()
 
 
 def poll_blockchain(event_filter, poll_interval, is_test, process_events):
@@ -22,6 +20,8 @@ def poll_blockchain(event_filter, poll_interval, is_test, process_events):
             if operating_system == 'Windows':
                 message = "Polling for events on " + ETHEREUM_CONTRACT
             else:
+                os.environ['TZ'] = 'EST+05EDT,M4.1.0,M10.5.0'
+                time.tzset()
                 message = time.strftime('%X %x %Z') + " - Polling for events on " + ETHEREUM_CONTRACT
             print(message)
             for event in event_filter.get_all_entries():
@@ -40,6 +40,8 @@ def poll_blockchain(event_filter, poll_interval, is_test, process_events):
         if operating_system == 'Windows':
             message = "Polling for events on " + ETHEREUM_CONTRACT
         else:
+            os.environ['TZ'] = 'EST+05EDT,M4.1.0,M10.5.0'
+            time.tzset()
             message = time.strftime('%X %x %Z') + " - Polling for events on " + ETHEREUM_CONTRACT
         for event in event_filter.get_all_entries():
             print(message)
