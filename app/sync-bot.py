@@ -16,7 +16,7 @@ os.environ['TZ'] = 'EST+05EDT,M4.1.0,M10.5.0'
 time.tzset()
 
 
-def poll_blockchain(event_filter, poll_interval, is_test, send_tweet):
+def poll_blockchain(event_filter, poll_interval, is_test, process_events):
     if not is_test:
         while True:
             if operating_system == 'Windows':
@@ -27,8 +27,14 @@ def poll_blockchain(event_filter, poll_interval, is_test, send_tweet):
             for event in event_filter.get_all_entries():
                 block_id = parameters_handler.get_block_id(event)
                 print("Processing transactionHash: " + str(block_id.hex()))
-                if send_tweet:
-                    event_processor.process_create_event_and_tweet(event)
+                if process_events:
+                    try:
+                        event_processor.process_create_event_and_tweet(event)
+                    except Exception as e:
+                        print(e)
+                        pass
+                    finally:
+                        pass
             time.sleep(poll_interval)
     else:
         if operating_system == 'Windows':
@@ -39,14 +45,14 @@ def poll_blockchain(event_filter, poll_interval, is_test, send_tweet):
             print(message)
             block_id = parameters_handler.get_block_id(event)
             print("Processing transactionHash: " + str(block_id.hex()))
-            if send_tweet:
+            if process_events:
                 event_processor.process_create_event_and_tweet(event)
             time.sleep(poll_interval)
 
 
 def main():
-    is_test = False
-    send_tweet = False
+    is_test = True
+    process_events = False
     event_signature = event_signatures.get_created_signature()
     # event_signature = event_signatures.get_transfer_signature()
     # event_signature = event_signatures.getMaturedSignature()
@@ -54,7 +60,7 @@ def main():
         event_filter = w3.eth.filter({"address": checksum_address, 'fromBlock': 11774988, 'toBlock': 'latest', 'topics': [event_signature]})
     else:
         event_filter = w3.eth.filter({"address": checksum_address, 'fromBlock': 'latest', 'topics': [event_signature]})
-    poll_blockchain(event_filter, 2, is_test, send_tweet)
+    poll_blockchain(event_filter, 2, is_test, process_events)
 
 
 if __name__ == '__main__':
