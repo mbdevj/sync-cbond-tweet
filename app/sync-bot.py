@@ -51,8 +51,8 @@ def poll_blockchain(event_filter, poll_interval, is_test, process_events):
 
 
 def main():
-    is_test = True
-    process_events = False
+    is_test = False
+    process_events = True
     event_signature = event_signatures.get_created_signature()
     # event_signature = event_signatures.get_transfer_signature()
     # event_signature = event_signatures.getMaturedSignature()
