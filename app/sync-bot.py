@@ -28,13 +28,7 @@ def poll_blockchain(event_filter, poll_interval, is_test, process_events):
                 block_id = parameters_handler.get_block_id(event)
                 print("Processing transactionHash: " + str(block_id.hex()))
                 if process_events:
-                    try:
-                        event_processor.process_create_event_and_tweet(event)
-                    except Exception as e:
-                        print(e)
-                        pass
-                    finally:
-                        pass
+                    event_processor.process_create_event_and_tweet(event)
             time.sleep(poll_interval)
     else:
         if operating_system == 'Windows':
@@ -55,14 +49,21 @@ def poll_blockchain(event_filter, poll_interval, is_test, process_events):
 def main():
     is_test = False
     process_events = True
-    event_signature = event_signatures.get_created_signature()
-    # event_signature = event_signatures.get_transfer_signature()
-    # event_signature = event_signatures.getMaturedSignature()
-    if is_test:
-        event_filter = w3.eth.filter({"address": checksum_address, 'fromBlock': 11774988, 'toBlock': 'latest', 'topics': [event_signature]})
-    else:
-        event_filter = w3.eth.filter({"address": checksum_address, 'fromBlock': 'latest', 'topics': [event_signature]})
-    poll_blockchain(event_filter, 2, is_test, process_events)
+    while True:
+        try:
+            event_signature = event_signatures.get_token_created_event_signature()
+            # event_signature = event_signatures.get_token_transferred_event_signature()
+            # event_signature = event_signatures.get_token_matured_signature()
+            if is_test:
+                event_filter = w3.eth.filter({"address": checksum_address, 'fromBlock': 11774988, 'toBlock': 'latest',
+                                              'topics': [event_signature]})
+            else:
+                event_filter = w3.eth.filter({"address": checksum_address, 'fromBlock': 'latest',
+                                              'topics': [event_signature]})
+            poll_blockchain(event_filter, 2, is_test, process_events)
+        except Exception as e:
+            print(e)
+            continue
 
 
 if __name__ == '__main__':

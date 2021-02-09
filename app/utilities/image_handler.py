@@ -18,4 +18,5 @@ def get_bond_image(token_id):
         # bond = bond.resize((1024, 512), Image.ANTIALIAS)
         bond = bond.resize((1000, 707), Image.ANTIALIAS)
         bond.save(image_dir + "final_" + cbond_image)
+        os.remove(image_dir + cbond_image)
     return image_dir + "final_" + cbond_image
