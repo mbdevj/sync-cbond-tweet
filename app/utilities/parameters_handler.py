@@ -7,6 +7,7 @@ import os
 
 def load_application_properties(property_section, property_name):
     properties_file = os.getcwd() + "/app/resources/application.properties"
+    # print(properties_file)
     config = RawConfigParser()
     config.read(properties_file, encoding=None)
     value = config.get(property_section, property_name)
