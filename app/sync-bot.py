@@ -3,15 +3,13 @@
 import time
 import os
 import platform
-from app.utilities import event_signatures
-from app.utilities import parameters_handler
-from app.utilities import event_processor
-from web3 import Web3
-
+from utilities import event_signatures
+from utilities import parameters_handler
+from utilities import event_processor
+from connections import web3driver
 
 ETHEREUM_CONTRACT = parameters_handler.get_eth_contract()
-ETHEREUM_ENDPOINT = parameters_handler.get_eth_endpoint()
-w3 = Web3(Web3.WebsocketProvider(ETHEREUM_ENDPOINT))
+w3 = web3driver.get_web3_session(parameters_handler.get_eth_endpoint())
 checksum_address = w3.toChecksumAddress(ETHEREUM_CONTRACT)
 operating_system = platform.system()
 os.environ['TZ'] = 'EST+05EDT,M4.1.0,M10.5.0'
@@ -48,7 +46,7 @@ def poll_blockchain(event_filter, poll_interval, is_test, send_tweet):
 
 def main():
     is_test = False
-    send_tweet = True
+    send_tweet = False
     event_signature = event_signatures.get_created_signature()
     # event_signature = event_signatures.get_transfer_signature()
     # event_signature = event_signatures.getMaturedSignature()

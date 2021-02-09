@@ -7,7 +7,7 @@ import sys
 import urllib.request, json
 
 
-properties_file = os.getcwd() + "/resources/application.properties"
+properties_file = os.getcwd() + "/app/resources/application.properties"
 config = RawConfigParser()
 config.read(properties_file, encoding=None)
 
@@ -22,7 +22,7 @@ except Exception as e:
 w3 = Web3(Web3.WebsocketProvider(ETHEREUM_ENDPOINT))
 
 
-with open(os.getcwd() + "/resources/abi/cbond.abi") as f:
+with open(os.getcwd() + "/app/resources/abi/cbond.abi") as f:
     cbond_abi = json.load(f)
 
 

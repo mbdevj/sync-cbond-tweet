@@ -1,13 +1,13 @@
-import app.utilities.event_handler as event_handler
-import app.utilities.blockchain_handler as blockchain_handler
-import app.utilities.image_handler as image_handler
+from app.utilities import event_handler
+from app.utilities import blockchain_handler
+from app.utilities import image_handler
 import os
 import sys
 from configparser import RawConfigParser
 
 
 def load_application_properties(property_section, property_name):
-    properties_file = os.getcwd() + "/resources/application.properties"
+    properties_file = os.getcwd() + "/app/resources/application.properties"
     config = RawConfigParser()
     config.read(properties_file, encoding=None)
     value = config.get(property_section, property_name)
