@@ -5,17 +5,17 @@ import sys
 from configparser import RawConfigParser
 import os
 
-properties_file = os.getcwd() + "/resources/application.properties"
+properties_file = os.getcwd() + "/app/resources/application.properties"
 
 config = RawConfigParser()
 config.read(properties_file, encoding=None)
 
 
 try:
-    CONSUMER_KEY = config.get("TwitterApiSection", "twitter.consumer.key")
-    CONSUMER_SECRET = config.get("TwitterApiSection", "twitter.consumer.secret")
-    ACCESS_KEY = config.get("TwitterApiSection", "twitter.access.key")
-    ACCESS_SECRET = config.get("TwitterApiSection", "twitter.access.secret")
+    CONSUMER_KEY = config.get("TwitterProperties", "twitter.consumer.key")
+    CONSUMER_SECRET = config.get("TwitterProperties", "twitter.consumer.secret")
+    ACCESS_KEY = config.get("TwitterProperties", "twitter.access.key")
+    ACCESS_SECRET = config.get("TwitterProperties", "twitter.access.secret")
 except Exception as e:
     print('could not read configuration file')
     print(e)
@@ -28,5 +28,7 @@ def update_status_with_media(tweet_text, image_path):
 
     api = tweepy.API(auth, wait_on_rate_limit=True,
                      wait_on_rate_limit_notify=True)
-
-    api.update_with_media(image_path, tweet_text)
+    try:
+        api.update_with_media(image_path, tweet_text)
+    except Exception as e:
+        print(e)
