@@ -13,13 +13,13 @@ config.read(properties_file, encoding=None)
 
 try:
     ETHEREUM_CONTRACT = config.get("EthereumProperties", "ethereum.contract")
-    ETHEREUM_ENDPOINT = config.get("EthereumProperties", "ethereum.provider")
+    ETHEREUM_ENDPOINT = config.get("EthereumProperties", "ethereum.endpoint")
 except Exception as e:
     print('Could not read configuration file')
     print(e)
     sys.exit(1)
 
-w3 = Web3(Web3.HTTPProvider(ETHEREUM_ENDPOINT))
+w3 = Web3(Web3.WebsocketProvider(ETHEREUM_ENDPOINT))
 
 
 with open(os.getcwd() + "/resources/abi/cbond.abi") as f:

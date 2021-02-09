@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
 from flask import request
-from app.connections import twitter
-from app.connections import coingecko
+from connections import twitter
+from connections import coingecko
 from babel.numbers import format_currency
 
 
