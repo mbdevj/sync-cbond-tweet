@@ -1,4 +1,4 @@
-import app.utilities.parameters_handler as parameters_handler
+from app.utilities import parameters_handler
 from app.connections import twitter
 
 

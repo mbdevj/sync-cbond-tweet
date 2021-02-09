@@ -9,6 +9,7 @@ from utilities import event_processor
 from connections import web3driver
 
 ETHEREUM_CONTRACT = parameters_handler.get_eth_contract()
+print(ETHEREUM_CONTRACT)
 w3 = web3driver.get_web3_session(parameters_handler.get_eth_endpoint())
 checksum_address = w3.toChecksumAddress(ETHEREUM_CONTRACT)
 operating_system = platform.system()

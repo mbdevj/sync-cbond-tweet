@@ -1,12 +1,15 @@
 from web3 import Web3
 from web3.contract import ConciseContract
 from configparser import RawConfigParser
+from app.utilities import parameters_handler
+from app.connections import web3driver
 from urllib import parse
 import os
 import sys
 import urllib.request, json
 
-
+ETHEREUM_CONTRACT = parameters_handler.get_eth_contract()
+w3 = web3driver.get_web3_session(parameters_handler.get_eth_endpoint())
 properties_file = os.getcwd() + "/app/resources/application.properties"
 config = RawConfigParser()
 config.read(properties_file, encoding=None)

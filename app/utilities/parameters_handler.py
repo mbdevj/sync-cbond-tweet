@@ -1,8 +1,8 @@
 from app.utilities import event_handler
 from app.utilities import blockchain_handler
 from app.utilities import image_handler
-import os
 from configparser import RawConfigParser
+import os
 
 
 def load_application_properties(property_section, property_name):

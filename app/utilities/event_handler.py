@@ -1,6 +1,3 @@
-#!/usr/bin/python3
-
-
 def handle_transfer_event(event):
     token_id = int((event['topics'][3].hex()), 16)
     return token_id
