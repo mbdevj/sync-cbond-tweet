@@ -77,7 +77,7 @@ def get_apr(token_id):
         original_amount_sync = data['numeric']['original_amount_sync']
         mature_amount_sync = data['numeric']['mature_amount_sync']
         apr = round((mature_amount_sync / original_amount_sync - 1) * 100, 2)
-        print(apr)
+        # print(apr)
         return apr
 
 
