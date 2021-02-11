@@ -7,6 +7,10 @@ from urllib import parse
 import os
 import sys
 import urllib.request, json
+import locale
+
+
+locale.setlocale(locale.LC_ALL,'en_US.UTF-8')
 
 ETHEREUM_CONTRACT = parameters_handler.get_eth_contract()
 w3 = web3driver.get_web3_session(parameters_handler.get_eth_endpoint())
@@ -67,25 +71,121 @@ def get_lpt_pair(contract):
     ]
     for i in pools[:10]:
         if contract == i[0]:
-            lpt_pair = "$" + i[1] + " / $" + i[2]
+            lpt_pair = "$" + i[1] + " - $" + i[2]
             return lpt_pair
 
 
-def get_apr(token_id):
+def get_interest_upon_maturity(token_id):
     with urllib.request.urlopen("https://tokenomics.syncbond.com/currentMaturedValue?id=" + str(token_id)) as url:
         data = json.loads(url.read().decode())
         original_amount_sync = data['numeric']['original_amount_sync']
         mature_amount_sync = data['numeric']['mature_amount_sync']
-        apr = round((mature_amount_sync / original_amount_sync - 1) * 100, 2)
-        # print(apr)
-        return apr
+        interest_upon_maturity = round((mature_amount_sync / original_amount_sync - 1) * 100, 2)
+        # print(interest_upon_maturity)
+        return interest_upon_maturity
 
 
 def get_duration(token_id):
     URL = cbond_concise.tokenURI(token_id)
     data = dict(parse.parse_qsl(parse.urlsplit(URL).query))
-    # print(int(int(data['termLength'])/86400))
-    # print(data)
     duration = int(int(data['termLength'])/86400)
-    # print(duration)
+    if duration == 30:
+        duration = "1 month"
+    if duration == 90:
+        duration = "3 months"
+    if duration == 180:
+        duration = "6 months"
+    if duration == 360:
+        duration = "1 year"
+    if duration == 720:
+        duration = "2 years"
+    if duration == 1080:
+        duration = "3 years"
     return duration
+
+
+def get_original_amount_sync(token_id):
+    original_amount_sync = int(cbond_concise.syncAmountById(token_id) / (10 ** 18))
+    return original_amount_sync
+
+
+def get_sync_price_at_creation(token_id):
+    sync_price_at_creation = cbond_concise.syncPriceById(token_id) / (10 ** 18) * 1400.22
+    return sync_price_at_creation
+
+
+def get_original_amount_ltoken(token_id):
+    original_amount_ltoken = int(cbond_concise.lTokenAmountById(token_id) / (10 ** 18))
+    return original_amount_ltoken
+
+
+def get_ltoken_price_at_creation(token_id):
+    ltoken_price_at_creation = cbond_concise.lTokenPriceById(token_id) / (10 ** 18) * 1400.22
+    return ltoken_price_at_creation
+
+
+def get_ltokenamt(token_id):
+    ltokenamt = cbond_concise.lTokenAmountById(token_id) / (10 ** 18)
+    return ltokenamt
+
+
+def get_syncamt(token_id):
+    syncamt = cbond_concise.syncRewardedOnMaturity(token_id) / (10 ** 18)
+    return syncamt
+
+
+def get_bond_creation_timestamp(token_id):
+    bond_creation_timestamp = cbond_concise.timestampById(token_id)
+    return bond_creation_timestamp
+
+
+def get_is_divs(token_id):
+    is_divs = cbond_concise.gradualDivsById(token_id)
+    return is_divs
+
+
+def get_creation_eth_price():
+    with urllib.request.urlopen("https://tokenomics.syncbond.com/eth_price") as url:
+        data = json.loads(url.read().decode())
+        creation_eth_price = data
+        return creation_eth_price
+
+
+def get_lpt_addr_by_id(token_id):
+    lpt_addr_by_id = str(cbond_concise.lAddrById(token_id).lower())
+    return lpt_addr_by_id
+
+
+def get_pair_ts(token_id):
+    with urllib.request.urlopen("https://tokenomics.syncbond.com/getTableData") as url:
+        data = json.loads(url.read().decode())
+        pair_ts = data[get_lpt_addr_by_id(token_id)]['pair_ts']
+        return pair_ts
+
+
+def get_reserve(token_id):
+    with urllib.request.urlopen("https://tokenomics.syncbond.com/getTableData") as url:
+        data = json.loads(url.read().decode())
+        reserve = int(data[get_lpt_addr_by_id(token_id)]['reserveUSD'].replace('$', '').replace(',', ''))
+    return reserve
+
+
+def get_lpt_ratio(token_id):
+    lpt_ratio = get_ltokenamt(token_id) / get_pair_ts(token_id)
+    return lpt_ratio
+
+
+def get_lpt_value_usd(token_id):
+    lpt_value_usd = get_lpt_ratio(token_id) * get_reserve(token_id)
+    return lpt_value_usd
+
+
+def get_sync_value_usd(token_id):
+    sync_value = get_sync_price_at_creation(token_id) * get_syncamt(token_id)
+    return sync_value
+
+
+def get_total_value_usd(token_id):
+    total_value_usd = get_sync_value_usd(token_id) + get_lpt_value_usd(token_id)
+    total_value_usd = locale.currency(total_value_usd, grouping=True)
+    return total_value_usd
