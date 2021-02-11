@@ -7,6 +7,10 @@ from urllib import parse
 import os
 import sys
 import urllib.request, json
+import locale
+
+
+locale.setlocale(locale.LC_ALL,'en_US.UTF-8')
 
 ETHEREUM_CONTRACT = parameters_handler.get_eth_contract()
 w3 = web3driver.get_web3_session(parameters_handler.get_eth_endpoint())
@@ -67,27 +71,36 @@ def get_lpt_pair(contract):
     ]
     for i in pools[:10]:
         if contract == i[0]:
-            lpt_pair = "$" + i[1] + " / $" + i[2]
+            lpt_pair = "$" + i[1] + " - $" + i[2]
             return lpt_pair
 
 
-def get_apr(token_id):
+def get_interest_upon_maturity(token_id):
     with urllib.request.urlopen("https://tokenomics.syncbond.com/currentMaturedValue?id=" + str(token_id)) as url:
         data = json.loads(url.read().decode())
         original_amount_sync = data['numeric']['original_amount_sync']
         mature_amount_sync = data['numeric']['mature_amount_sync']
-        apr = round((mature_amount_sync / original_amount_sync - 1) * 100, 2)
-        # print(apr)
-        return apr
+        interest_upon_maturity = round((mature_amount_sync / original_amount_sync - 1) * 100, 2)
+        # print(interest_upon_maturity)
+        return interest_upon_maturity
 
 
 def get_duration(token_id):
     URL = cbond_concise.tokenURI(token_id)
     data = dict(parse.parse_qsl(parse.urlsplit(URL).query))
-    # print(int(int(data['termLength'])/86400))
-    # print(data)
     duration = int(int(data['termLength'])/86400)
-    # print(duration)
+    if duration == 30:
+        duration = "1 month"
+    if duration == 90:
+        duration = "3 months"
+    if duration == 180:
+        duration = "6 months"
+    if duration == 360:
+        duration = "1 year"
+    if duration == 720:
+        duration = "2 years"
+    if duration == 1080:
+        duration = "3 years"
     return duration
 
 
@@ -174,4 +187,5 @@ def get_sync_value_usd(token_id):
 
 def get_total_value_usd(token_id):
     total_value_usd = get_sync_value_usd(token_id) + get_lpt_value_usd(token_id)
+    total_value_usd = locale.currency(total_value_usd, grouping=True)
     return total_value_usd
