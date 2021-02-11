@@ -58,6 +58,11 @@ def get_lpt_value(token_id):
     return lpt_value
 
 
+def get_total_value_usd(token_id):
+    total_value_usd = str(blockchain_handler.get_total_value_usd(token_id))
+    return total_value_usd
+
+
 def get_duration(token_id):
     duration = str(blockchain_handler.get_duration(token_id))
     return duration
@@ -68,9 +73,9 @@ def get_total_value_of_bonded_sync(token_id):
     return total_value_of_bonded_sync
 
 
-def get_apr(token_id):
-    apr = str(blockchain_handler.get_apr(token_id))
-    return apr
+def get_interest_upon_maturity(token_id):
+    interest_upon_maturity = str(blockchain_handler.get_interest_upon_maturity(token_id))
+    return interest_upon_maturity
 
 
 def get_image(token_id):
@@ -78,10 +83,12 @@ def get_image(token_id):
     return image
 
 
-def get_tweet_text(token_id, duration, total_value_of_bonded_sync, lpt_value, lpt_pair, apr):
-    tweet_text = "New " + duration + " day #CryptoBond created with " + total_value_of_bonded_sync \
-                 + " $SYNC and " + lpt_value + " " + lpt_pair + ", yielding an APR of " + apr \
-                 + "%! Create yours now at https://syncbond.com!"
+def get_tweet_text(lpt_pair, token_id, total_value_usd, interest_upon_maturity, duration):
+    tweet_text = lpt_pair + " #CryptoBond no. " + str(token_id) + " created with " + total_value_usd \
+                 + ", yielding " + str(interest_upon_maturity) + "% upon maturity in " + duration + "! \n \n" \
+                 + "Create your $SYNC CryptoBond now at https://syncbond.com, follow us on Twitter @SYNCTOKEN and join " \
+                 "our community at https://t.me/SYNC_NETWORK! \n \n" + "https://view.syncbond.com/?id="\
+                 + str(token_id)
     return tweet_text
 
 
