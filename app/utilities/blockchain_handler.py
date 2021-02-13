@@ -186,6 +186,6 @@ def get_sync_value_usd(token_id):
 
 
 def get_total_value_usd(token_id):
-    total_value_usd = get_sync_value_usd(token_id) + get_lpt_value_usd(token_id)
+    total_value_usd = (get_syncamt(token_id) * get_sync_value_usd(token_id)) * 2
     total_value_usd = locale.currency(total_value_usd, grouping=True)
     return total_value_usd
