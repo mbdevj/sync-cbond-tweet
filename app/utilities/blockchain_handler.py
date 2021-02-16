@@ -151,6 +151,13 @@ def get_creation_eth_price():
         return creation_eth_price
 
 
+def get_rarity(token_id):
+    with urllib.request.urlopen("https://tokenomics.syncbond.com/getBondRarity?id=" + str(token_id)) as url:
+        data = json.loads(url.read().decode())
+        rarity = data
+        return rarity
+
+
 def get_lpt_addr_by_id(token_id):
     lpt_addr_by_id = str(cbond_concise.lAddrById(token_id).lower())
     return lpt_addr_by_id

@@ -83,12 +83,19 @@ def get_image(token_id):
     return image
 
 
-def get_tweet_text(lpt_pair, token_id, total_value_usd, interest_upon_maturity, duration):
-    tweet_text = lpt_pair + " #CryptoBond no. " + str(token_id) + " created with " + total_value_usd \
-                 + ", yielding " + str(interest_upon_maturity) + "% upon maturity in " + duration + "! \n \n" \
-                 + "Create your $SYNC CryptoBond now at https://syncbond.com, follow us on Twitter @SYNCTOKEN and join " \
+def get_rarity(token_id):
+    rarity = blockchain_handler.get_rarity(token_id)
+    return rarity
+
+
+def get_tweet_text(rarity, lpt_pair, token_id, total_value_usd, interest_upon_maturity, duration):
+    tweet_text = str(rarity) + " " + lpt_pair + " #CryptoBond no. " + str(token_id) + " created with " + total_value_usd \
+                 + ". Upon maturation in " + duration + " this #NFT yields " + str(interest_upon_maturity) \
+                 + "% additional $SYNC! \n \n" \
+                 + "Create your CryptoBond now at https://syncbond.com, and join " \
                  "our community at https://t.me/SYNC_NETWORK! \n \n" + "https://view.syncbond.com/?id="\
                  + str(token_id)
     return tweet_text
+
 
 

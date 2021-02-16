@@ -68,12 +68,12 @@ def poll_blockchain(event_filter, poll_interval, is_test, process_events):
 
 def main():
     is_test = False
-    process_events = False
+    process_events = True
     if is_test:
         event_signature = event_signatures.get_token_created_event_signature()
         # event_signature = event_signatures.get_token_transferred_event_signature()
         # event_signature = event_signatures.get_token_matured_signature()
-        event_filter = w3.eth.filter({"address": checksum_address, 'fromBlock': 11831281, 'toBlock': 'latest',
+        event_filter = w3.eth.filter({"address": checksum_address, 'fromBlock': 11868999, 'toBlock': 'latest',
                                       'topics': [event_signature]})
         poll_blockchain(event_filter, 2, is_test, process_events)
     else:
