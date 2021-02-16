@@ -10,6 +10,7 @@ def process_create_event_and_tweet(event):
     duration = parameters_handler.get_duration(token_id)
     interest_upon_maturity = parameters_handler.get_interest_upon_maturity(token_id)
     image = parameters_handler.get_image(token_id)
-    text = parameters_handler.get_tweet_text(lpt_pair, token_id, total_value_usd, interest_upon_maturity, duration)
+    rarity = parameters_handler.get_rarity(token_id)
+    text = parameters_handler.get_tweet_text(rarity, lpt_pair, token_id, total_value_usd, interest_upon_maturity, duration)
     twitter.update_status_with_media(text, image)
     os.remove(image)
