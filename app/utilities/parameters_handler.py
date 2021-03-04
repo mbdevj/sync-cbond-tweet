@@ -88,9 +88,9 @@ def get_rarity(token_id):
     return rarity
 
 
-def get_created_tweet_text(rarity, lpt_pair, token_id, total_value_usd, interest_upon_maturity, duration):
+def get_created_tweet_text(rarity, lpt_pair, token_id, total_value_usd, interest_upon_maturation, duration):
     tweet_text = str(rarity) + " " + lpt_pair + " #CryptoBond no. " + str(token_id) + " created with " + total_value_usd \
-                 + ". Upon maturation in " + duration + " this #NFT yields " + str(interest_upon_maturity) \
+                 + ". Upon maturation in " + duration + " this #NFT yields " + str(interest_upon_maturation) \
                  + "% additional $SYNC! \n \n" \
                  + "Create your CryptoBond now at https://syncbond.com, and join " \
                  "our community at https://t.me/SYNC_NETWORK! \n \n" + "https://view.syncbond.com/?id="\
@@ -98,8 +98,9 @@ def get_created_tweet_text(rarity, lpt_pair, token_id, total_value_usd, interest
     return tweet_text
 
 
-def get_matured_tweet_text(lpt_pair, token_id, total_value_usd):
-    tweet_text = lpt_pair + " #CryptoBond no. " + token_id + "was just burned to yield " + total_value_usd
+def get_matured_tweet_text(lpt_pair, token_id, total_value_usd, interest_at_maturation):
+    tweet_text = lpt_pair + " #CryptoBond no. " + str(token_id) + " was just burned to yield " + total_value_usd \
+                + ", " + interest_at_maturation + "% from creation."
     return tweet_text
 
 
