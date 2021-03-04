@@ -65,13 +65,13 @@ def get_lpt_pair(contract):
     ["0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852","USDT","ETH", "0xdac17f958d2ee523a2206206994597c13d831ec7", "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"],
     ["0xa478c2975ab1ea89e8196811f51a7b7ade33eb11","DAI","ETH", "0x6b175474e89094c44da98b954eedeac495271d0f", "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"],
     ["0xbb2b8038a1640196fbe3e38816f3e67cba72d940","WBTC","ETH", "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599", "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"],
-    ["0x004375dff511095cc5a197a54140a24efef3a416","WBTC","USDC", "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599", "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"],
+    ["0x004375dff511095cc5a197a54140a24efef3a416","WBTC","USDC", "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"],
     ["0x816579230a4c61670eba15486c8357bf87ec307e","xBTC","ETH", "0xecbf566944250dde88322581024e611419715f7a", "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"],
     ["0x767055e2a9f15783b1ec5ef134a89acf3165332f","USDC","EURS", "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", "0xdb25f211ab05b1c97d595516f45794528a807ad8"],
     ]
-    for i in pools[:10]:
+    for i in pools:
         if contract == i[0]:
-            lpt_pair = "$" + i[1] + " - $" + i[2]
+            lpt_pair = "$" + i[2] + " - $" + i[1]
             return lpt_pair
 
 
