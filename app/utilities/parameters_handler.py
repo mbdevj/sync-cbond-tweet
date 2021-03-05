@@ -46,6 +46,7 @@ def get_token_id(event):
     # print(token_id)
     return token_id
 
+
 def get_lpt_pair(event):
     data = ([event['data'][26:66]])
     lpt_contract = "0x" + str((data[0]))
@@ -58,9 +59,15 @@ def get_lpt_value(token_id):
     return lpt_value
 
 
-def get_total_value_usd(token_id):
-    total_value_usd = str(blockchain_handler.get_total_value_usd(token_id))
-    return total_value_usd
+def get_current_lpt_value_usd(token_id):
+    current_lpt_value_usd = str(blockchain_handler.get_total_value_usd(token_id))
+    return current_lpt_value_usd
+
+
+def get_original_lpt_value_usd(token_id):
+    original_lpt_value_usd = str(blockchain_handler.get_original_amount_ltoken(token_id) *
+                                 blockchain_handler.get_ltoken_price_at_creation(token_id))
+    return original_lpt_value_usd
 
 
 def get_duration(token_id):
