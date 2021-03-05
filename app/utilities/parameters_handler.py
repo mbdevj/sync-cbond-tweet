@@ -36,9 +36,9 @@ def get_send_tweet():
     pass
 
 
-def get_block_id(event):
-    block_id = (event['transactionHash'])
-    return block_id
+def get_transaction_hash(event):
+    transaction_hash = (event['transactionHash'])
+    return transaction_hash
 
 
 def get_token_id(event):

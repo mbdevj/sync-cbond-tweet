@@ -12,7 +12,7 @@ def process_create_event_and_tweet(event):
     image = parameters_handler.get_image(token_id)
     rarity = parameters_handler.get_rarity(token_id)
     text = parameters_handler.get_created_tweet_text(rarity, lpt_pair, token_id, total_value_usd, interest_upon_maturity, duration)
-    # twitter.update_status_with_media(text, image)
+    twitter.update_status_with_media(text, image)
     print(text)
     os.remove(image)
 
@@ -23,4 +23,4 @@ def process_mature_event_and_tweet(event):
     text = parameters_handler.get_matured_tweet_text(lpt_pair, token_id, total_value_usd, "55")
     print(text)
     image = parameters_handler.get_image(token_id)
-    # twitter.update_status_with_media(text, image)
+    twitter.update_status_with_media(text, image)
