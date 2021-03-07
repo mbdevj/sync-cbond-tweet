@@ -66,7 +66,6 @@ async def matured_worker(event_filter, poll_interval, event_type):
         for event in event_filter.get_new_entries():
             try:
                 transaction_hash = parameters_handler.get_transaction_hash(event)
-                block_id = parameters_handler.get_block_id(event)
                 logging.info("Processing transactionHash: " + str(transaction_hash.hex()))
                 print("Processing transactionHash: " + str(transaction_hash.hex()))
                 handle_event(event, event_type)
