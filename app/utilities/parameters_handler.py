@@ -66,7 +66,7 @@ def get_current_lpt_value_usd(token_id):
 
 def get_original_lpt_value_usd(token_id):
     original_lpt_value_usd = str(blockchain_handler.get_original_amount_ltoken(token_id) *
-                                 blockchain_handler.get_ltoken_price_at_creation(token_id))
+                                 blockchain_handler.get_ltoken_price_at_creation(token_id) * 2)
     return original_lpt_value_usd
 
 
