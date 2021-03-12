@@ -27,4 +27,4 @@ def process_mature_event_and_tweet(event):
     text = parameters_handler.get_matured_tweet_text(lpt_pair, token_id, total_value_usd, "55")
     print(text)
     image = parameters_handler.get_image(token_id)
-    twitter.update_status_with_media(text, image)
+#    twitter.update_status_with_media(text, image)
