@@ -43,17 +43,19 @@ async def created_worker(event_filter, poll_interval, event_type):
         message = "Polling for " + event_type + " bonds: " + str(event_filter) + " on " + ETHEREUM_CONTRACT
         logging.info(message)
         print(message)
-        for event in event_filter.get_all_entries():
-        #for event in event_filter.get_new_entries():
+        #for event in event_filter.get_all_entries():
+        for event in event_filter.get_new_entries():
             try:
                 transaction_hash = parameters_handler.get_transaction_hash(event)
-                logging.info("Processing transactionHash: " + str(transaction_hash.hex()))
+                token_id = parameters_handler.get_token_id(event)
+                logging.info("Processing TokenID " + token_id + " transactionHash: " + str(transaction_hash.hex()))
                 print("Processing transactionHash: " + str(transaction_hash.hex()))
                 handle_event(event, event_type)
             except asyncio.CancelledError as e:
                 logging.error(e)
                 print("Break it out")
                 raise e  # Raise a proper error
+            continue
         await asyncio.sleep(poll_interval)
 
 
@@ -62,17 +64,19 @@ async def matured_worker(event_filter, poll_interval, event_type):
         message = "Polling for " + event_type + " bonds: " + str(event_filter) + " on " + ETHEREUM_CONTRACT
         logging.info(message)
         print(message)
-        for event in event_filter.get_all_entries():
-        #for event in event_filter.get_new_entries():
+        #for event in event_filter.get_all_entries():
+        for event in event_filter.get_new_entries():
             try:
                 transaction_hash = parameters_handler.get_transaction_hash(event)
-                logging.info("Processing transactionHash: " + str(transaction_hash.hex()))
+                token_id = parameters_handler.get_token_id(event)
+                logging.info("Processing TokenID " + token_id + " transactionHash: " + str(transaction_hash.hex()))
                 print("Processing transactionHash: " + str(transaction_hash.hex()))
                 handle_event(event, event_type)
             except asyncio.CancelledError as e:
                 logging.error(e)
                 print("Break it out")
                 raise e  # Raise a proper error
+            continue
         await asyncio.sleep(poll_interval)
 
 
@@ -81,16 +85,16 @@ created_event_signature = event_signatures.get_token_created_event_signature()
 matured_event_signature = event_signatures.get_token_matured_signature()
 
 # Real time monitoring
-#created_event_filter = w3.eth.filter({"address": checksum_address, 'topics': [created_event_signature]})
-#matured_event_filter = w3.eth.filter({"address": checksum_address, 'topics': [matured_event_signature]})
+created_event_filter = w3.eth.filter({"address": checksum_address, 'topics': [created_event_signature]})
+matured_event_filter = w3.eth.filter({"address": checksum_address, 'topics': [matured_event_signature]})
 
 # Process historical events for testing
-created_event_filter = w3.eth.filter({"address": checksum_address, 'fromBlock': 11956500, 'toBlock': 'latest',
-                                       'topics': [created_event_signature]})
-matured_event_filter = w3.eth.filter({"address": checksum_address, 'fromBlock': 11957236, 'toBlock': 'latest',
-                                       'topics': [matured_event_signature]})
+#created_event_filter = w3.eth.filter({"address": checksum_address, 'fromBlock': 11956500, 'toBlock': 'latest',
+#                                       'topics': [created_event_signature]})
+#matured_event_filter = w3.eth.filter({"address": checksum_address, 'fromBlock': 11957236, 'toBlock': 'latest',
+#                                       'topics': [matured_event_signature]})
 loop = asyncio.get_event_loop()
 while True:
-#    asyncio.ensure_future(created_worker(created_event_filter, 4, "created"))
-    asyncio.ensure_future(matured_worker(matured_event_filter, 4, "matured"))
+    asyncio.ensure_future(created_worker(created_event_filter, 2, "created"))
+    asyncio.ensure_future(matured_worker(matured_event_filter, 7, "matured"))
     loop.run_forever()

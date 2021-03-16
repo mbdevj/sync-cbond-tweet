@@ -53,6 +53,13 @@ def get_total_value_of_bonded_sync(token_id):
         return total_value
 
 
+def get_total_percent_change(token_id):
+    with urllib.request.urlopen("https://tokenomics.syncbond.com/currentMaturedValue?id=" + str(token_id)) as url:
+        data = json.loads(url.read().decode())
+        total_percent_change = data['total_percent_change']
+        return total_percent_change
+
+
 def get_lpt_pair(contract):
     pools =[
     ["0xfb2f545a9ad62f38fe600e24f75ecd790d30a7ba","SYNC","ETH", "0xb6ff96b8a8d214544ca0dbc9b33f7ad6503efd32", "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"],
