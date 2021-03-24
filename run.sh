@@ -1,4 +1,4 @@
 #!/bin/bash
 export PYTHONPATH=$(pwd)
-pip install -r requirements.txt
-python3 app/sync-bot.py
+pip3 install -r requirements.txt
+nohup python3 app/sync-twitter-bot.py &

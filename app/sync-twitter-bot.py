@@ -39,7 +39,7 @@ def handle_event(event, event_type):
 
 
 async def created_worker(event_filter, poll_interval, event_type):
-    while True:
+    while True or False:
         message = "Polling for " + event_type + " bonds: " + str(event_filter) + " on " + ETHEREUM_CONTRACT
         logging.info(message)
         print(message)
@@ -48,7 +48,7 @@ async def created_worker(event_filter, poll_interval, event_type):
             try:
                 transaction_hash = parameters_handler.get_transaction_hash(event)
                 token_id = parameters_handler.get_token_id(event)
-                logging.info("Processing TokenID " + token_id + " transactionHash: " + str(transaction_hash.hex()))
+                logging.info("Processing TokenID " + str(token_id) + " transactionHash: " + str(transaction_hash.hex()))
                 print("Processing transactionHash: " + str(transaction_hash.hex()))
                 handle_event(event, event_type)
             except asyncio.CancelledError as e:
@@ -60,7 +60,7 @@ async def created_worker(event_filter, poll_interval, event_type):
 
 
 async def matured_worker(event_filter, poll_interval, event_type):
-    while True:
+    while True or False:
         message = "Polling for " + event_type + " bonds: " + str(event_filter) + " on " + ETHEREUM_CONTRACT
         logging.info(message)
         print(message)
@@ -69,7 +69,7 @@ async def matured_worker(event_filter, poll_interval, event_type):
             try:
                 transaction_hash = parameters_handler.get_transaction_hash(event)
                 token_id = parameters_handler.get_token_id(event)
-                logging.info("Processing TokenID " + token_id + " transactionHash: " + str(transaction_hash.hex()))
+                logging.info("Processing TokenID " + str(token_id) + " transactionHash: " + str(transaction_hash.hex()))
                 print("Processing transactionHash: " + str(transaction_hash.hex()))
                 handle_event(event, event_type)
             except asyncio.CancelledError as e:
@@ -95,6 +95,6 @@ matured_event_filter = w3.eth.filter({"address": checksum_address, 'topics': [ma
 #                                       'topics': [matured_event_signature]})
 loop = asyncio.get_event_loop()
 while True:
-    asyncio.ensure_future(created_worker(created_event_filter, 2, "created"))
-    asyncio.ensure_future(matured_worker(matured_event_filter, 7, "matured"))
+    asyncio.ensure_future(created_worker(created_event_filter, 4, "created"))
+    asyncio.ensure_future(matured_worker(matured_event_filter, 4, "matured"))
     loop.run_forever()
