@@ -53,8 +53,7 @@ async def created_worker(event_filter, poll_interval, event_type):
                 handle_event(event, event_type)
             except asyncio.CancelledError as e:
                 logging.error(e)
-                print("Break it out")
-                raise e  # Raise a proper error
+                raise e 
             continue
         await asyncio.sleep(poll_interval)
 
