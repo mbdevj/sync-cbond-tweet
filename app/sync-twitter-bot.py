@@ -95,6 +95,4 @@ matured_event_filter = w3.eth.filter({"address": checksum_address, 'topics': [ma
 #                                       'topics': [matured_event_signature]})
 loop = asyncio.get_event_loop()
 while True:
-    asyncio.ensure_future(created_worker(created_event_filter, 4, "created"))
-    asyncio.ensure_future(matured_worker(matured_event_filter, 4, "matured"))
-    loop.run_forever()
+    loop.run_until_complete(asyncio.gather(created_worker(created_event_filter, 3, "created"), matured_worker(matured_event_filter, 7, "matured")))
