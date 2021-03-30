@@ -36,15 +36,16 @@ def get_send_tweet():
     pass
 
 
-def get_block_id(event):
-    block_id = (event['transactionHash'])
-    return block_id
+def get_transaction_hash(event):
+    transaction_hash = (event['transactionHash'])
+    return transaction_hash
 
 
 def get_token_id(event):
     token_id = event_handler.handle_create_event(event)
     # print(token_id)
     return token_id
+
 
 def get_lpt_pair(event):
     data = ([event['data'][26:66]])
@@ -58,9 +59,15 @@ def get_lpt_value(token_id):
     return lpt_value
 
 
-def get_total_value_usd(token_id):
-    total_value_usd = str(blockchain_handler.get_total_value_usd(token_id))
-    return total_value_usd
+def get_current_lpt_value_usd(token_id):
+    current_lpt_value_usd = str(blockchain_handler.get_total_value_usd(token_id))
+    return current_lpt_value_usd
+
+
+def get_original_lpt_value_usd(token_id):
+    original_lpt_value_usd = str(blockchain_handler.get_original_amount_ltoken(token_id) *
+                                 blockchain_handler.get_ltoken_price_at_creation(token_id) * 2)
+    return original_lpt_value_usd
 
 
 def get_duration(token_id):
@@ -88,13 +95,29 @@ def get_rarity(token_id):
     return rarity
 
 
-def get_tweet_text(rarity, lpt_pair, token_id, total_value_usd, interest_upon_maturity, duration):
+def get_total_percent_change(token_id):
+    total_percent_change = blockchain_handler.get_total_percent_change(token_id)
+    if total_percent_change.startswith("+"):
+        total_percent_change = total_percent_change[1:]
+    return total_percent_change
+
+
+def get_created_tweet_text(rarity, lpt_pair, token_id, total_value_usd, interest_upon_maturation, duration):
     tweet_text = str(rarity) + " " + lpt_pair + " #CryptoBond no. " + str(token_id) + " created with " + total_value_usd \
-                 + ". Upon maturation in " + duration + " this #NFT yields " + str(interest_upon_maturity) \
+                 + ". Upon maturation in " + duration + " this #NFT yields " + str(interest_upon_maturation) \
                  + "% additional $SYNC! \n \n" \
                  + "Create your CryptoBond now at https://syncbond.com, and join " \
-                 "our community at https://t.me/SYNC_NETWORK! \n \n" + "https://view.syncbond.com/?id="\
+                   "our community at https://t.me/SYNC_NETWORK! \n \n" + "https://view.syncbond.com/?id="\
                  + str(token_id)
+    return tweet_text
+
+
+def get_matured_tweet_text(lpt_pair, token_id, total_value_usd, interest_at_maturation):
+    tweet_text = lpt_pair + " #CryptoBond no. " + str(token_id) + " was just burned to yield " + total_value_usd \
+                + ", " + str(interest_at_maturation) + " from creation. \n \n" \
+                + "Create your CryptoBond now at https://syncbond.com, and join " \
+                  "our community at https://t.me/SYNC_NETWORK! \n \n" + "https://view.syncbond.com/?id=" \
+                + str(token_id)
     return tweet_text
 
 

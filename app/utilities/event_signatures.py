@@ -12,4 +12,5 @@ def get_token_transferred_event_signature():
 
 
 def get_token_matured_signature():
-    pass
+    event_signature = Web3.sha3(text="Matured(address,uint256,uint256,uint256)").hex()
+    return event_signature
