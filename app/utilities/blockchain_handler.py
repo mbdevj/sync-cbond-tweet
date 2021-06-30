@@ -75,6 +75,7 @@ def get_lpt_pair(contract):
     ["0x004375dff511095cc5a197a54140a24efef3a416","WBTC","USDC", "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"],
     ["0x816579230a4c61670eba15486c8357bf87ec307e","xBTC","ETH", "0xecbf566944250dde88322581024e611419715f7a", "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"],
     ["0x767055e2a9f15783b1ec5ef134a89acf3165332f","USDC","EURS", "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", "0xdb25f211ab05b1c97d595516f45794528a807ad8"],
+    ["0xc8e78ad2573f5e16a286443aea2a6f1ba0c06b96","AAPX","ETH", "0xbfd815347d024f449886c171f78fa5b8e6790811", "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"],
     ]
     for i in pools:
         if contract == i[0]:
